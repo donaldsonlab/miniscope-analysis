@@ -4,7 +4,7 @@
 %by minian. 
 %
 %prerequisite: structure of miniscope software output =
-%xyz->animalName->date->time->xyz, with date = session date and time = each
+%xyz->animalName->date->time->exp_id->devices, with date = session date and time = each
 %individual trial
 %
 % WMS modification to Samara Miller (UCLA) code, last update 220710
@@ -44,9 +44,15 @@ mkdir miniscope_compiled
 for j = 1:length(ordered_trials)
     a = ordered_trials{j};
     date = cd(a);
-    trial = cd('My_V4_Miniscope'); %get into the folder w the miniscope videos
+    d = dir; %next four lines are just getting into your exp_id folder, no matter what the name is (so long as there is only one exp_id folder, which there should be)
+    real_dir = d(~ismember({d.name},{'.','..'}));
+    exp_id = real_dir.name;
+    trial = cd(exp_id);
+    exp = cd('My_V4_Miniscope'); %get into the folder w the miniscope videos
     %compile folder's video files into a list 
     files = dir('*.avi');
+    LIST = {};
+    clear indx
     for k = 1:length(files)
         LIST {k} = files(k).name;
         indx(k) = k;
@@ -73,7 +79,7 @@ for j = 1:length(ordered_trials)
     end
     
     %save copies of all the newly named videos in the new miniscope_compiled folder
-    copyfile *.avi ../../miniscope_compiled
+    copyfile *.avi ../../../miniscope_compiled
 
     %re-set directory back to the date folder for next loop iteration
     cd(date);
