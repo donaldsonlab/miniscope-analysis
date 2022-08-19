@@ -26,7 +26,7 @@ clc;clear;
 
 %you need the natsort package to naturally sort the trial times - download
 %and add path below:
-addpath('//penc2.rc.int.colorado.edu/DonaldsonLab/Sheeran/code/matlab/natsort') %load natsort fxns
+addpath('//penc8.rc.int.colorado.edu/DonaldsonLab/Sheeran/code/matlab/natsort') %load natsort fxns
 
 %choose date folder (e.g., "2022_07_09") containing all trials from a single session/animal to
 %be concatenated and set as current directory
@@ -62,9 +62,15 @@ for j = 1:length(ordered_trials)
     a = ordered_trials{j};
     date = cd(a);
     %get into the folder w the minicam videos
-    trial = cd('MiniCam1'); %trial = cd('MiniCam2');
+    d = dir; %next four lines are just getting into your exp_id folder, no matter what the name is (so long as there is only one exp_id folder, which there should be)
+    real_dir = d(~ismember({d.name},{'.','..'}));
+    exp_id = real_dir.name;
+    trial = cd(exp_id);
+    exp = cd('MiniCam1'); %exp = cd('MiniCam2');
     %compile folder's video files into a list 
     files = dir('*.avi');
+    LIST = {};
+    clear indx
     for k = 1:length(files)
         LIST {k} = files(k).name;
         indx(k) = k;
@@ -82,9 +88,9 @@ for j = 1:length(ordered_trials)
     movefile(files(id).name, rename); %overwrite existing file name
     end
     
-    %save copies of all the newly named videos in the new miniscope_compiled folder
-    copyfile *.avi ../../minicam1_compiled
-    %copyfile *.avi ../../minicam2_compiled
+    %save copies of all the newly named videos in the new minicam_compiled folder
+    copyfile *.avi ../../../minicam1_compiled
+    %copyfile *.avi ../../../minicam2_compiled
 
     %re-set directory back to the date folder for next loop iteration
     cd(date);
