@@ -7,8 +7,7 @@ Code forming various parts of the lab's pipeline for UCLA miniscope data analysi
 
 2) Import pre-processed miniscope videos into minian and run pipeline
 
-3) Export minian output (specifically the C variable = calcium traces) as NetCDF file
-    - 
+3) Export minian output (specifically the C variable = calcium traces) as NetCDF file - added cell to minian pipeline
 
 4) Import NetCDF file into matlab, transpose matrix, save as .mat file for import into Bento
     - minian_to_bento.m
