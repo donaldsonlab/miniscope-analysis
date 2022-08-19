@@ -14,7 +14,7 @@ Code forming various parts of the lab's pipeline for UCLA miniscope data analysi
     - minian_to_bento.m
 
 5) Concatenate all behavioral video files (and, if need be, collect all videos from all trials within a single recording session in order)
-    -miniCAM_concat_code.m
+    - miniCAM_concat_code.m
 
 6) Import concatenated video file(s) and C data matrix into Bento, along with corresponding timestamp files produced by miniscope DAQ software (pending support for timestamp file-based feed alignment in Bento - coming soon?)
     - for now, for alignment outside of Bento, use timestamp_align.py (once also have a Cleversys .txt output for the behavioral videos; WMS needs to write a pipeline to incorporate these functions)
