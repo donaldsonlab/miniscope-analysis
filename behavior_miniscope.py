@@ -98,19 +98,19 @@ def space_bin(align_cs,bin_size,show_plot=False):
     show_plot = if you want to show a plot of your bins (not sure what colors are corresponding to)
     '''
     y = align_cs['NoseY(mm)'].tolist()
-    maxY = align_cs['NoseY(mm)'].max()
-    minY = align_cs['NoseY(mm)'].min()
+    maxY = max(y)
+    minY = min(y)
     Ylim = [minY, maxY]
     nbinsY = int(np.round(np.diff(Ylim)[0] / bin_size)) #may need to make this nbinsy + 1 to actually get the correct # of bins?
 
     x = align_cs['NoseX(mm)'].tolist()
-    maxX = align_cs['NoseX(mm)'].max()
-    minX = align_cs['NoseX(mm)'].min()
+    maxX = max(x)
+    minX = min(x)
     Xlim = [minX, maxX]
     nbinsX = int(np.round(np.diff(Xlim)[0] / bin_size)) #may need to make this nbinsx + 1 to actually get the correct # of bins?
 
-    xbins = np.linspace(minX,maxX,nbinsX)
-    ybins = np.linspace(minY,maxY,nbinsY)
+    xbins = np.linspace(minX,maxX,(nbinsX+1))
+    ybins = np.linspace(minY,maxY,(nbinsY+1))
     bins = [ybins, xbins]
 
     H, xedges, yedges = np.histogram2d(y, x, bins)
