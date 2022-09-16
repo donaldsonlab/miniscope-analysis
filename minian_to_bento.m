@@ -12,17 +12,21 @@
 clc;clear
 
 %point to directory with the minian-outputted netcdf file
-cd C:\Users\sheer\minian
+cd \\penc8.rc.int.colorado.edu\donaldsonlab\Sheeran\miniscope_files\analyzed\5001\2022_09_02\11_40_34\miniscope_compiled\
 
 %%read in variables from that file
 
 Adata = ncread('minian_dataset.nc','A'); %spatial footprints, likely need to transpose
-Cdata = ncread('minian_dataset.nc','C'); %temporal values
+Cdata = ncread('minian_dataset.nc','C_curate'); %temporal values
 Sdata = ncread('minian_dataset.nc','S'); 
 
 %transpose matrix so that each neuron is its own row vs column (as needed
 %by bento)
 Cdata_trans = transpose(Cdata);
+
+%drop NaN rows (apparently not dropped in the cell in minian pipeline)
+C_final = Cdata_trans(sum(isnan(Cdata_trans),2)==0,:);
+
 
 %WMS thought this structure would work w bento for a data and timestamp
 %compatability but it didnt :(
@@ -33,8 +37,8 @@ Cdata_trans = transpose(Cdata);
 %minian_mat.S.data = Sdata;
 
 %pick directory to save transposed matrix into
-cd(uigetdir);
+%cd(uigetdir);
 
 %save matrix into new .mat file (accepted input format from bento)
-save('minianCouput_mat', "Cdata_trans") 
+save('minianCouput_mat', "C_final") 
 %save('minianoutput_mat', 'minian_mat') this was a format that WMS thought would work for bento but didn't 
