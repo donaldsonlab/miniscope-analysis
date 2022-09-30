@@ -6,7 +6,7 @@ import re
 import math
 import seaborn as sns
 import os
-import Cleversys_Parser as cp
+import Cleversys_Parser_wms as cp
 
 #modified version of Dave's cleversys parser for miniscope alignment/bento import
 def ms_parse(cs_txt, cam_num):
@@ -44,7 +44,32 @@ def ms_parse(cs_txt, cam_num):
 
     return parse_df
 
+#should combine this and the previous fxn into a single one that selects the appropriate parse fxn based on whether solo animal or not (if statement)
+def ms_parse_solo(cs_txt, cam_num):
+    ''' input: 
+    cs_txt = .txt output from cleversys
+    cam_num = minicam # that you ran thru cleversys (likely the top view)
 
+    return parse_df = df containing frame-by-frame parsed output with the columns you care about'''
+    #run dave's parser on your cleversys txt, only return df
+    cs_df, _ = cp.solo_parse(cs_txt)
+    
+    #edit this depending on which values you care about
+    #WMS note 220804 - i think 'original frames' in the cleversys .txt output is the frames of the original video, which is what we'd want
+    useful = ['CenterX(mm)','CenterY(mm)','NoseX(mm)','NoseY(mm)','EventRule1',
+       'EventRule2', 'EventRule3', 'chamber_novel', 'chamber_partner',
+       'chamber_center', 'EventRule7', 'EventRule8', 'EventRule9',
+       'EventRule10', 'EventRule11', 'EventRule12', 'EventRule13',
+       'EventRule14', 'EventRule15', 'EventRule16', 'original_frames', 'Time',
+       'original_time', 'distance_traveled']
+
+    #change the df column names to the variables you want to look at
+    cs_df = cs_df[cs_df.columns.intersection(useful)]
+
+    #i believe original frames = the frame number from the minicam (starting at the cutoff start time you set in cleversys)
+    parse_df = cs_df.rename(columns={"original_frames":"Frame Number_"+cam_num})
+
+    return parse_df
 
 
 ##aligning the minicam and miniscope feeds, using miniscope frames as reference
