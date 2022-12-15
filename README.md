@@ -1,3 +1,11 @@
+#WMS TO-DOs:
+0) fix Minian issues (crashing during visualization)
+1) finish place cell script
+2) write loader for a) output of place cell script and b) ezTrack (and Cleversys) into Bento
+3) modify SM's AUC/ROC script for Bento-outputted .annot struct
+
+
+
 # miniscope-analysis
 Code forming various parts of the lab's pipeline for UCLA miniscope data analysis
 
